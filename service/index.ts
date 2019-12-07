@@ -1,6 +1,6 @@
 import * as express from "express";
 import * as aws from "aws-sdk";
-import { s3Bucket } from "../config";
+import { s3Bucket } from "./config";
 
 const app = express();
 
@@ -15,6 +15,8 @@ app.get('/write', async (req, res) => {
         res.json({ msg: "wrote to s3" })
     } catch (e) {
         res.status(500).json({ error: e.msg })
+        console.error(`Failed to write ${e.msg}`);
+        
     }
 })
 

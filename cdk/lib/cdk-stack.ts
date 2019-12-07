@@ -4,7 +4,7 @@ import * as ecs from "@aws-cdk/aws-ecs";
 import * as ecsPatterns from "@aws-cdk/aws-ecs-patterns";
 import * as route53 from "@aws-cdk/aws-route53";
 import * as s3 from "@aws-cdk/aws-s3";
-import { s3Bucket } from '../../config';
+import { s3Bucket } from '../../service/config';
 import { Duration } from '@aws-cdk/core';
 
 export class CdkStack extends cdk.Stack {
@@ -25,7 +25,7 @@ export class CdkStack extends cdk.Stack {
       cluster: ecsCluster,
       publicLoadBalancer: true,
       serviceName: "my-cool-service",
-      healthCheckGracePeriod:Duration.seconds(5),
+      healthCheckGracePeriod: Duration.seconds(5),
       taskImageOptions: {
         image: ecs.ContainerImage.fromAsset("../service/"),
         containerPort: 8080
