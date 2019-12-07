@@ -7,5 +7,9 @@
     "us-east-1d",
     "us-east-1e",
     "us-east-1f"
-  ]
+  ],
+  "hosted-zone:account=731241200085:domainName=aspecto.technology:region=us-east-1": {
+    "Id": "/hostedzone/Z1O8QZR4176QUG",
+    "Name": "aspecto.technology."
+  }
 }

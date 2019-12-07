@@ -2,7 +2,7 @@
 import 'source-map-support/register';
 import cdk = require('@aws-cdk/core');
 import { CdkStack } from '../lib/cdk-stack';
-import { account, region } from '../config';
+import { account, region } from '../../config';
 
 const app = new cdk.App();
 new CdkStack(app, 'AwsCommunityDay', {
