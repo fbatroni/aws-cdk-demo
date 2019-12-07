@@ -1,0 +1,696 @@
+Resources:
+  vpcA2121C38:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 172.100.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/Resource
+  vpcPublicSubnet1Subnet2E65531E:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 172.100.0.0/18
+      VpcId:
+        Ref: vpcA2121C38
+      AvailabilityZone: us-east-1a
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PublicSubnet1
+        - Key: aws-cdk:subnet-name
+          Value: Public
+        - Key: aws-cdk:subnet-type
+          Value: Public
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet1/Subnet
+  vpcPublicSubnet1RouteTable48A2DF9B:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcA2121C38
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PublicSubnet1
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet1/RouteTable
+  vpcPublicSubnet1RouteTableAssociation5D3F4579:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcPublicSubnet1RouteTable48A2DF9B
+      SubnetId:
+        Ref: vpcPublicSubnet1Subnet2E65531E
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet1/RouteTableAssociation
+  vpcPublicSubnet1DefaultRoute10708846:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: vpcPublicSubnet1RouteTable48A2DF9B
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: vpcIGWE57CBDCA
+    DependsOn:
+      - vpcVPCGW7984C166
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet1/DefaultRoute
+  vpcPublicSubnet1EIPDA49DCBE:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet1/EIP
+  vpcPublicSubnet1NATGateway9C16659E:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - vpcPublicSubnet1EIPDA49DCBE
+          - AllocationId
+      SubnetId:
+        Ref: vpcPublicSubnet1Subnet2E65531E
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PublicSubnet1
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet1/NATGateway
+  vpcPublicSubnet2Subnet009B674F:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 172.100.64.0/18
+      VpcId:
+        Ref: vpcA2121C38
+      AvailabilityZone: us-east-1b
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PublicSubnet2
+        - Key: aws-cdk:subnet-name
+          Value: Public
+        - Key: aws-cdk:subnet-type
+          Value: Public
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet2/Subnet
+  vpcPublicSubnet2RouteTableEB40D4CB:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcA2121C38
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PublicSubnet2
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet2/RouteTable
+  vpcPublicSubnet2RouteTableAssociation21F81B59:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcPublicSubnet2RouteTableEB40D4CB
+      SubnetId:
+        Ref: vpcPublicSubnet2Subnet009B674F
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet2/RouteTableAssociation
+  vpcPublicSubnet2DefaultRouteA1EC0F60:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: vpcPublicSubnet2RouteTableEB40D4CB
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: vpcIGWE57CBDCA
+    DependsOn:
+      - vpcVPCGW7984C166
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet2/DefaultRoute
+  vpcPublicSubnet2EIP9B3743B1:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet2/EIP
+  vpcPublicSubnet2NATGateway9B8AE11A:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - vpcPublicSubnet2EIP9B3743B1
+          - AllocationId
+      SubnetId:
+        Ref: vpcPublicSubnet2Subnet009B674F
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PublicSubnet2
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PublicSubnet2/NATGateway
+  vpcPrivateSubnet1Subnet934893E8:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 172.100.128.0/18
+      VpcId:
+        Ref: vpcA2121C38
+      AvailabilityZone: us-east-1a
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PrivateSubnet1
+        - Key: aws-cdk:subnet-name
+          Value: Private
+        - Key: aws-cdk:subnet-type
+          Value: Private
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet1/Subnet
+  vpcPrivateSubnet1RouteTableB41A48CC:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcA2121C38
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PrivateSubnet1
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet1/RouteTable
+  vpcPrivateSubnet1RouteTableAssociation67945127:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcPrivateSubnet1RouteTableB41A48CC
+      SubnetId:
+        Ref: vpcPrivateSubnet1Subnet934893E8
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet1/RouteTableAssociation
+  vpcPrivateSubnet1DefaultRoute1AA8E2E5:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: vpcPrivateSubnet1RouteTableB41A48CC
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: vpcPublicSubnet1NATGateway9C16659E
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet1/DefaultRoute
+  vpcPrivateSubnet2Subnet7031C2BA:
+    Type: AWS::EC2::Subnet
+    Properties:
+      CidrBlock: 172.100.192.0/18
+      VpcId:
+        Ref: vpcA2121C38
+      AvailabilityZone: us-east-1b
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PrivateSubnet2
+        - Key: aws-cdk:subnet-name
+          Value: Private
+        - Key: aws-cdk:subnet-type
+          Value: Private
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet2/Subnet
+  vpcPrivateSubnet2RouteTable7280F23E:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId:
+        Ref: vpcA2121C38
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc/PrivateSubnet2
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet2/RouteTable
+  vpcPrivateSubnet2RouteTableAssociation007E94D3:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: vpcPrivateSubnet2RouteTable7280F23E
+      SubnetId:
+        Ref: vpcPrivateSubnet2Subnet7031C2BA
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet2/RouteTableAssociation
+  vpcPrivateSubnet2DefaultRouteB0E07F99:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId:
+        Ref: vpcPrivateSubnet2RouteTable7280F23E
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: vpcPublicSubnet2NATGateway9B8AE11A
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/PrivateSubnet2/DefaultRoute
+  vpcIGWE57CBDCA:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: AwsCommunityDay/vpc
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/IGW
+  vpcVPCGW7984C166:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId:
+        Ref: vpcA2121C38
+      InternetGatewayId:
+        Ref: vpcIGWE57CBDCA
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/vpc/VPCGW
+  cluster611F8AFF:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: this-is-so-cool
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/cluster/Resource
+  fargateLB637AFD8A:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Scheme: internet-facing
+      SecurityGroups:
+        - Fn::GetAtt:
+            - fargateLBSecurityGroup9874D030
+            - GroupId
+      Subnets:
+        - Ref: vpcPublicSubnet1Subnet2E65531E
+        - Ref: vpcPublicSubnet2Subnet009B674F
+      Type: application
+    DependsOn:
+      - vpcPublicSubnet1DefaultRoute10708846
+      - vpcPublicSubnet2DefaultRouteA1EC0F60
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/LB/Resource
+  fargateLBSecurityGroup9874D030:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Automatically created Security Group for ELB AwsCommunityDayfargateLBC848DFF5
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow from anyone on port 80
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/LB/SecurityGroup/Resource
+  fargateLBSecurityGrouptoAwsCommunityDayfargateServiceSecurityGroupCC62FC6F8080E781B7AF:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      GroupId:
+        Fn::GetAtt:
+          - fargateLBSecurityGroup9874D030
+          - GroupId
+      IpProtocol: tcp
+      Description: Load balancer to target
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - fargateServiceSecurityGroup09F94840
+          - GroupId
+      FromPort: 8080
+      ToPort: 8080
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/LB/SecurityGroup/to AwsCommunityDayfargateServiceSecurityGroupCC62FC6F:8080
+  fargateLBPublicListenerAE30801E:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - TargetGroupArn:
+            Ref: fargateLBPublicListenerECSGroup88E28056
+          Type: forward
+      LoadBalancerArn:
+        Ref: fargateLB637AFD8A
+      Port: 80
+      Protocol: HTTP
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/LB/PublicListener/Resource
+  fargateLBPublicListenerECSGroup88E28056:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      TargetType: ip
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/LB/PublicListener/ECSGroup/Resource
+  fargateDNS49A3EEC9:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      Name: aws-community-day.aspecto.technology.
+      Type: A
+      AliasTarget:
+        DNSName:
+          Fn::GetAtt:
+            - fargateLB637AFD8A
+            - DNSName
+        HostedZoneId:
+          Fn::GetAtt:
+            - fargateLB637AFD8A
+            - CanonicalHostedZoneID
+      HostedZoneId: /hostedzone/Z1O8QZR4176QUG
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/DNS/Resource
+  fargateTaskDefTaskRole8DA4FB94:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/TaskRole/Resource
+  fargateTaskDefTaskRoleDefaultPolicyF420B2D6:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - s3:GetObject*
+              - s3:GetBucket*
+              - s3:List*
+              - s3:DeleteObject*
+              - s3:PutObject*
+              - s3:Abort*
+            Effect: Allow
+            Resource:
+              - Fn::GetAtt:
+                  - s3100BEDFB
+                  - Arn
+              - Fn::Join:
+                  - ""
+                  - - Fn::GetAtt:
+                        - s3100BEDFB
+                        - Arn
+                    - /*
+        Version: "2012-10-17"
+      PolicyName: fargateTaskDefTaskRoleDefaultPolicyF420B2D6
+      Roles:
+        - Ref: fargateTaskDefTaskRole8DA4FB94
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/TaskRole/DefaultPolicy/Resource
+  fargateTaskDef0C8C3C8B:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      ContainerDefinitions:
+        - Essential: true
+          Image:
+            Fn::Join:
+              - ""
+              - - 731241200085.dkr.ecr.us-east-1.
+                - Ref: AWS::URLSuffix
+                - /
+                - Fn::Select:
+                    - 0
+                    - Fn::Split:
+                        - "@sha256:"
+                        - Ref: AssetParametersc13374ef853379f418708fede07573710f33384c700aaa65c548be0622b0e2efImageName19AB3049
+                - "@sha256:"
+                - Fn::Select:
+                    - 1
+                    - Fn::Split:
+                        - "@sha256:"
+                        - Ref: AssetParametersc13374ef853379f418708fede07573710f33384c700aaa65c548be0622b0e2efImageName19AB3049
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-group:
+                Ref: fargateTaskDefwebLogGroupACACD01C
+              awslogs-stream-prefix: fargate
+              awslogs-region: us-east-1
+          Name: web
+          PortMappings:
+            - ContainerPort: 8080
+              Protocol: tcp
+      Cpu: "256"
+      ExecutionRoleArn:
+        Fn::GetAtt:
+          - fargateTaskDefExecutionRoleED040CF0
+          - Arn
+      Family: AwsCommunityDayfargateTaskDefC9C44A2E
+      Memory: "512"
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      TaskRoleArn:
+        Fn::GetAtt:
+          - fargateTaskDefTaskRole8DA4FB94
+          - Arn
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/Resource
+  fargateTaskDefwebAssetImageAdoptRepository61F05463:
+    Type: Custom::ECRAdoptedRepository
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62c52BE89E9
+          - Arn
+      RepositoryName:
+        Fn::Select:
+          - 0
+          - Fn::Split:
+              - "@sha256:"
+              - Ref: AssetParametersc13374ef853379f418708fede07573710f33384c700aaa65c548be0622b0e2efImageName19AB3049
+    DependsOn:
+      - AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleDefaultPolicy6BC8737C
+      - AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleD788AA17
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/web/AssetImage/AdoptRepository/Resource/Default
+  fargateTaskDefwebLogGroupACACD01C:
+    Type: AWS::Logs::LogGroup
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/web/LogGroup/Resource
+  fargateTaskDefExecutionRoleED040CF0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+        Version: "2012-10-17"
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/ExecutionRole/Resource
+  fargateTaskDefExecutionRoleDefaultPolicyD3830B3A:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ecr:BatchCheckLayerAvailability
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - :ecr:us-east-1:731241200085:repository/
+                  - Fn::GetAtt:
+                      - fargateTaskDefwebAssetImageAdoptRepository61F05463
+                      - RepositoryName
+          - Action: ecr:GetAuthorizationToken
+            Effect: Allow
+            Resource: "*"
+          - Action:
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Effect: Allow
+            Resource:
+              Fn::GetAtt:
+                - fargateTaskDefwebLogGroupACACD01C
+                - Arn
+        Version: "2012-10-17"
+      PolicyName: fargateTaskDefExecutionRoleDefaultPolicyD3830B3A
+      Roles:
+        - Ref: fargateTaskDefExecutionRoleED040CF0
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/TaskDef/ExecutionRole/DefaultPolicy/Resource
+  fargateService62B357E9:
+    Type: AWS::ECS::Service
+    Properties:
+      TaskDefinition:
+        Ref: fargateTaskDef0C8C3C8B
+      Cluster:
+        Ref: cluster611F8AFF
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 50
+      DesiredCount: 1
+      EnableECSManagedTags: false
+      HealthCheckGracePeriodSeconds: 60
+      LaunchType: FARGATE
+      LoadBalancers:
+        - ContainerName: web
+          ContainerPort: 8080
+          TargetGroupArn:
+            Ref: fargateLBPublicListenerECSGroup88E28056
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          SecurityGroups:
+            - Fn::GetAtt:
+                - fargateServiceSecurityGroup09F94840
+                - GroupId
+          Subnets:
+            - Ref: vpcPrivateSubnet1Subnet934893E8
+            - Ref: vpcPrivateSubnet2Subnet7031C2BA
+      ServiceName: my-cool-service
+    DependsOn:
+      - fargateLBPublicListenerECSGroup88E28056
+      - fargateLBPublicListenerAE30801E
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/Service/Service
+  fargateServiceSecurityGroup09F94840:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: AwsCommunityDay/fargate/Service/SecurityGroup
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      VpcId:
+        Ref: vpcA2121C38
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/Service/SecurityGroup/Resource
+  fargateServiceSecurityGroupfromAwsCommunityDayfargateLBSecurityGroupBEDC798180803ECC6054:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      IpProtocol: tcp
+      Description: Load balancer to target
+      FromPort: 8080
+      GroupId:
+        Fn::GetAtt:
+          - fargateServiceSecurityGroup09F94840
+          - GroupId
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - fargateLBSecurityGroup9874D030
+          - GroupId
+      ToPort: 8080
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/fargate/Service/SecurityGroup/from AwsCommunityDayfargateLBSecurityGroupBEDC7981:8080
+  AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleD788AA17:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62c/ServiceRole/Resource
+  AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleDefaultPolicy6BC8737C:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action:
+              - ecr:GetRepositoryPolicy
+              - ecr:SetRepositoryPolicy
+              - ecr:DeleteRepository
+              - ecr:ListImages
+              - ecr:BatchDeleteImage
+            Effect: Allow
+            Resource:
+              Fn::Join:
+                - ""
+                - - "arn:"
+                  - Ref: AWS::Partition
+                  - :ecr:us-east-1:731241200085:repository/
+                  - Fn::Select:
+                      - 0
+                      - Fn::Split:
+                          - "@sha256:"
+                          - Ref: AssetParametersc13374ef853379f418708fede07573710f33384c700aaa65c548be0622b0e2efImageName19AB3049
+        Version: "2012-10-17"
+      PolicyName: AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleDefaultPolicy6BC8737C
+      Roles:
+        - Ref: AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleD788AA17
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62c/ServiceRole/DefaultPolicy/Resource
+  AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62c52BE89E9:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Ref: AssetParametersa65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7S3Bucket7CBBD48C
+        S3Key:
+          Fn::Join:
+            - ""
+            - - Fn::Select:
+                  - 0
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParametersa65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7S3VersionKey87E3D057
+              - Fn::Select:
+                  - 1
+                  - Fn::Split:
+                      - "||"
+                      - Ref: AssetParametersa65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7S3VersionKey87E3D057
+      Handler: handler.handler
+      Role:
+        Fn::GetAtt:
+          - AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleD788AA17
+          - Arn
+      Runtime: nodejs10.x
+      Timeout: 300
+    DependsOn:
+      - AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleDefaultPolicy6BC8737C
+      - AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62cServiceRoleD788AA17
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/AdoptEcrRepositorydbc60defc59544bcaa5c28c95d68f62c/Resource
+      aws:asset:path: asset.a65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7
+      aws:asset:property: Code
+  s3100BEDFB:
+    Type: AWS::S3::Bucket
+    UpdateReplacePolicy: Retain
+    DeletionPolicy: Retain
+    Metadata:
+      aws:cdk:path: AwsCommunityDay/s3/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Modules: aws-cdk=1.18.0,@aws-cdk/assets=1.18.0,@aws-cdk/aws-applicationautoscaling=1.18.0,@aws-cdk/aws-autoscaling=1.18.0,@aws-cdk/aws-autoscaling-common=1.18.0,@aws-cdk/aws-autoscaling-hooktargets=1.18.0,@aws-cdk/aws-certificatemanager=1.18.0,@aws-cdk/aws-cloudformation=1.18.0,@aws-cdk/aws-cloudwatch=1.18.0,@aws-cdk/aws-ec2=1.18.0,@aws-cdk/aws-ecr=1.18.0,@aws-cdk/aws-ecr-assets=1.18.0,@aws-cdk/aws-ecs=1.18.0,@aws-cdk/aws-ecs-patterns=1.18.0,@aws-cdk/aws-elasticloadbalancingv2=1.18.0,@aws-cdk/aws-events=1.18.0,@aws-cdk/aws-events-targets=1.18.0,@aws-cdk/aws-iam=1.18.0,@aws-cdk/aws-kms=1.18.0,@aws-cdk/aws-lambda=1.18.0,@aws-cdk/aws-logs=1.18.0,@aws-cdk/aws-route53=1.18.0,@aws-cdk/aws-route53-targets=1.18.0,@aws-cdk/aws-s3=1.18.0,@aws-cdk/aws-s3-assets=1.18.0,@aws-cdk/aws-servicediscovery=1.18.0,@aws-cdk/aws-sns=1.18.0,@aws-cdk/aws-sns-subscriptions=1.18.0,@aws-cdk/aws-sqs=1.18.0,@aws-cdk/aws-ssm=1.18.0,@aws-cdk/core=1.18.0,@aws-cdk/cx-api=1.18.0,@aws-cdk/region-info=1.18.0,jsii-runtime=node.js/v12.10.0
+Outputs:
+  fargateLoadBalancerDNSB13ECB0B:
+    Value:
+      Fn::GetAtt:
+        - fargateLB637AFD8A
+        - DNSName
+  fargateServiceURL145CCBE8:
+    Value:
+      Fn::Join:
+        - ""
+        - - http://
+          - Ref: fargateDNS49A3EEC9
+Parameters:
+  AssetParametersc13374ef853379f418708fede07573710f33384c700aaa65c548be0622b0e2efImageName19AB3049:
+    Type: String
+    Description: ECR repository name and tag for asset "c13374ef853379f418708fede07573710f33384c700aaa65c548be0622b0e2ef"
+  AssetParametersa65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7S3Bucket7CBBD48C:
+    Type: String
+    Description: S3 bucket for asset "a65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7"
+  AssetParametersa65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7S3VersionKey87E3D057:
+    Type: String
+    Description: S3 key for asset version "a65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7"
+  AssetParametersa65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7ArtifactHash3E217B68:
+    Type: String
+    Description: Artifact hash for asset "a65ac4beaa2b5a7b20eebf3b7c5c1c886b71428afa377e02dab0d10ab3be57e7"
+
