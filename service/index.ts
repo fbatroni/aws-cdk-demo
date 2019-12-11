@@ -14,8 +14,8 @@ app.get('/write', async (req, res) => {
         await s3.putObject({ Body: "test", Bucket: s3Bucket, Key: "123.txt" }).promise()
         res.json({ msg: "wrote to s3" })
     } catch (e) {
-        res.status(500).json({ error: e.msg })
-        console.error(`Failed to write ${e.msg}`);
+        res.status(500).json({ error: e.message })
+        console.error(`Failed to write ${e.message}`);
         
     }
 })

@@ -1,6 +1,0 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.account = "731241200085";
-exports.region = "us-east-1";
-exports.s3Bucket = "";
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaW5kZXguanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyJpbmRleC50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFhLFFBQUEsT0FBTyxHQUFHLGNBQWMsQ0FBQztBQUN6QixRQUFBLE1BQU0sR0FBRyxXQUFXLENBQUM7QUFDckIsUUFBQSxRQUFRLEdBQUcsRUFBRSxDQUFDIiwic291cmNlc0NvbnRlbnQiOlsiZXhwb3J0IGNvbnN0IGFjY291bnQgPSBcIjczMTI0MTIwMDA4NVwiO1xuZXhwb3J0IGNvbnN0IHJlZ2lvbiA9IFwidXMtZWFzdC0xXCI7XG5leHBvcnQgY29uc3QgczNCdWNrZXQgPSBcIlwiOyJdfQ==
